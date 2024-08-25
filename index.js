@@ -7,28 +7,17 @@ const app = express();
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
-app.get('/api/shorturl', function(req, res) {
-  const { url } = req.query;
-
-  // Check if the URL is valid
-  try {
-    const urlObj = new URL(url);
-    const hostname = urlObj.hostname;
-
-    // Perform DNS lookup to verify the hostname
-    dns.lookup(hostname, function(err) {
-      if (err) {
-        res.json({ error: 'Invalid URL' });
-      } else {
-        // Save the URL to the database and return the shortened URL
-        // Your code here...
-        res.json({ original_url: url, short_url: 1 });
-      }
-    });
-  } catch (error) {
-    res.json({ error: 'Invalid URL' });
+app.get('/api/shorturl/:short_url', (req, res) => {
+  const short_url = req.params.short_url;
+  const url = urls[short_url];
+    if (url) {
+      res.redirect(url);
+    }
+    else {
+      res.json({ error: 'invalid URL' });
+    }
   }
-});
+);
 
 app.use(cors());
 
