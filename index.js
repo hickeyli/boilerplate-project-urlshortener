@@ -7,7 +7,7 @@ const app = express();
 // Basic Configuration
 const port = process.env.PORT || 3000;
 
-app.get('/api/shorturl/:short_url', (req, res) => {
+app.post('/api/shorturl', (req, res) => {
   const short_url = req.params.short_url;
   const url = urls[short_url];
     if (url) {
