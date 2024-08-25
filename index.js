@@ -8,6 +8,17 @@ const urlParser = require('url');
 const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
+// Basic Configuration
+const port = process.env.PORT || 3000;
+
+app.use(cors());
+
+app.use('/public', express.static(`${process.cwd()}/public`));
+
+app.get('/', function(req, res) {
+  res.sendFile(process.cwd() + '/views/index.html');
+});
+
 // In-memory storage for URL mappings
 let urlDatabase = [];
 let urlCounter = 1;
@@ -57,18 +68,11 @@ app.get('/api/shorturl/:shortUrl', (req, res) => {
   }
 });
 
-// Basic Configuration
-const port = process.env.PORT || 3000;
 
 
 
-app.use(cors());
 
-app.use('/public', express.static(`${process.cwd()}/public`));
 
-app.get('/', function(req, res) {
-  res.sendFile(process.cwd() + '/views/index.html');
-});
 
 
 // Your first API endpoint
